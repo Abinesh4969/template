@@ -4,20 +4,22 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Ecommerce | Tailwick - Admin & Dashboard Template</title>
+    <title>Ecommerce | Aetheinfi - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta content="Minimal Admin & Dashboard Template" name="description">
     <meta content="Themesdesign" name="author">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/app-assets/images/favicon.ico">
+     
+     
+    <link rel="shortcut icon" href="{{asset('app-assets/images/favicon.ico')}}">
     <!-- Layout config Js -->
-    <script src="/app-assets/js/layout.js"></script>
+    <script src="{{asset('app-assets/js/layout.js')}}"></script>
     <!-- Icons CSS -->
     
     <!-- Tailwind CSS -->
     
 
-  <link rel="stylesheet" href="/app-assets/css/tailwind2.css">
+  <link rel="stylesheet" href="{{asset('app-assets/css/tailwind2.css')}}">
 </head>
 
 <body class="text-base bg-body-bg text-body font-public dark:text-zink-100 dark:bg-zink-800 group-data-[skin=bordered]:bg-body-bordered group-data-[skin=bordered]:dark:bg-zink-700">
@@ -43,22 +45,46 @@
 <!-- end main content -->
 
 @include('partials.customebuttons')
-
-<script src='/app-assets/libs/choices.js/public/assets/scripts/choices.min.js'></script>
-<script src="/app-assets/libs/@popperjs/core/umd/popper.min.js"></script>
-<script src="/app-assets/libs/tippy.js/tippy-bundle.umd.min.js"></script>
-<script src="/app-assets/libs/simplebar/simplebar.min.js"></script>
-<script src="/app-assets/libs/prismjs/prism.js"></script>
-<script src="/app-assets/libs/lucide/umd/lucide.js"></script>
-<script src="/app-assets/js/tailwick.bundle.js"></script>
+ 
+ 
+<script src="{{asset('/app-assets/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script>
+<script src="{{asset('/app-assets/libs/@popperjs/core/umd/popper.min.js')}}"></script>
+<script src="{{asset('/app-assets/libs/tippy.js/tippy-bundle.umd.min.js')}}"></script>
+<script src="{{asset('/app-assets/libs/simplebar/simplebar.min.js')}}"></script>
+<script src="{{asset('/app-assets/libs/prismjs/prism.js')}}"></script>
+<script src="{{asset('/app-assets/libs/lucide/umd/lucide.js')}}"></script>
+<script src="{{asset('/app-assets/js/tailwick.bundle.js')}}"></script>
 <!--apexchart js-->
-<script src="/app-assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="{{asset('/app-assets/libs/apexcharts/apexcharts.min.js')}}"></script>
 
 <!--dashboard ecommerce init js-->
-<script src="/app-assets/js/pages/dashboards-ecommerce.init.js"></script>
+<script src="{{asset('/app-assets/js/pages/dashboards-ecommerce.init.js')}}"></script>
+
+<!-- Newly added  -->  
+
+<!--buttons dataTables start-->
+<script src="{{asset('/app-assets/js/datatables/jquery-3.7.0.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/data-tables.min.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/data-tables.tailwindcss.min.js')}}"></script>
+<!--buttons dataTables end -->
+<!-- first initials start -->
+<!-- <script src="{{asset('/app-assets/js/datatables/datatables.init.js')}}"></script> -->
+<!-- first initials end -->
+<!-- second initials start -->
+<script src="{{asset('/app-assets/js/datatables/datatables.buttons.min.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/jszip.min.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/pdfmake.min.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{asset('/app-assets/js/datatables/buttons.print.min.js')}}"></script>
+ <!-- second initials end -->
+
+<!-- Newly added  End-->  
+
 
 <!-- App js -->
-<script src="/app-assets/js/app.js"></script>
+<script src="{{asset('/app-assets/js/app.js')}}"></script>
+
+@stack('script')
 
 </body>
 

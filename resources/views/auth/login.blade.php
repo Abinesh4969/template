@@ -1,47 +1,121 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth group" data-layout="vertical" data-sidebar="light" data-sidebar-size="lg" data-mode="light" data-topbar="light" data-skin="default" data-navbar="sticky" data-content="fluid" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Sign In | Aetheinfi - Admin & Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta content="Minimal Admin & Dashboard Template" name="description">
+    <meta content="Themesdesign" name="author">
+    <link rel="shortcut icon" href="{{ asset('app-assets/images/favicon.ico') }}">
+    <script src="{{ asset('app-assets/js/layout.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('app-assets/css/tailwind2.css') }}">
+</head>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<body class="flex items-center justify-center min-h-screen px-4 py-16 bg-cover bg-auth-pattern dark:bg-auth-pattern-dark dark:text-zink-100 font-public">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+<div class="mb-0 border-none shadow-none xl:w-2/3 card bg-white/70 dark:bg-zink-500/70">
+    <div class="grid grid-cols-1 gap-0 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+            <div class="!px-12 !py-12 card-body">
+                <div class="text-center">
+                    <h4 class="mb-2 text-purple-500 dark:text-purple-500">Welcome Back !</h4>
+                    <p class="text-slate-500 dark:text-zink-200">Sign in to continue</p>
+                </div>
+
+                <!-- Laravel Login Form -->
+                <form method="POST" action="{{ route('login') }}" class="mt-10">
+                    @csrf
+
+                    <!-- Session Status -->
+                    @if (session('status'))
+                        <div class="px-4 py-3 mb-3 text-sm text-green-500 border border-green-200 rounded-md bg-green-50 dark:bg-green-400/20 dark:border-green-500/50">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="inline-block mb-2 text-base font-medium">Email</label>
+                        <input type="email" name="email" id="email"
+                               value="{{ old('email') }}"
+                               required autofocus autocomplete="username"
+                               class="form-input dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500
+                               dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                        @error('email')
+                            <div class="mt-1 text-sm text-red-500">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="inline-block mb-2 text-base font-medium">Password</label>
+                        <input type="password" name="password" id="password"
+                               required autocomplete="current-password"
+                               class="form-input dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500
+                               dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                        @error('password')
+                            <div class="mt-1 text-sm text-red-500">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center gap-2 mt-4">
+                        <input id="remember_me" type="checkbox" name="remember"
+                               class="border rounded-sm appearance-none size-4 bg-slate-100 border-slate-200
+                               dark:bg-zink-600/50 dark:border-zink-500 checked:bg-custom-500 checked:border-custom-500">
+                        <label for="remember_me" class="inline-block text-base font-medium align-middle cursor-pointer">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <!-- Forgot Password -->
+                    <div class="flex items-center justify-between mt-6">
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}"
+                               class="text-sm text-gray-600 underline hover:text-gray-900 dark:hover:text-custom-500">
+                                Forgot your password?
+                            </a>
+                        @endif
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="mt-10">
+                        <button type="submit"
+                                class="w-full text-white btn bg-custom-500 border-custom-500 hover:bg-custom-600 hover:border-custom-600">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <!-- Right Side Image / Branding -->
+        <div class="mx-2 mt-2 mb-2 border-none shadow-none lg:col-span-7 card bg-white/60 dark:bg-zink-500/60">
+            <div class="!px-10 !pt-10 h-full !pb-0 card-body flex flex-col">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="grow">
+                        <a href="/">
+                            <img src="{{ asset('app-assets/images/logo-light.png') }}" alt="" class="hidden h-6 dark:block">
+                            <img src="{{ asset('app-assets/images/logo-dark.png') }}" alt="" class="block h-6 dark:hidden">
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-auto">
+                    <img src="{{ asset('app-assets/images/img-01.png') }}" alt="" class="md:max-w-[32rem] mx-auto">
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+<script src="{{ asset('app-assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+<script src="{{ asset('app-assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
+<script src="{{ asset('app-assets/libs/tippy.js/tippy-bundle.umd.min.js') }}"></script>
+<script src="{{ asset('app-assets/libs/simplebar/simplebar.min.js') }}"></script>
+<script src="{{ asset('app-assets/libs/prismjs/prism.js') }}"></script>
+<script src="{{ asset('app-assets/libs/lucide/umd/lucide.js') }}"></script>
+<script src="{{ asset('app-assets/js/tailwick.bundle.js') }}"></script>
+<script src="{{ asset('app-assets/js/pages/auth-login.init.js') }}"></script>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+</html>

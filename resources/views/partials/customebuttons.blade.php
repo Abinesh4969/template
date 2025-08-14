@@ -9,7 +9,7 @@
 <div id="customizerButton" drawer-end class="fixed inset-y-0 flex flex-col w-full transition-transform duration-300 ease-in-out transform bg-white shadow ltr:right-0 rtl:left-0 md:w-96 z-drawer show dark:bg-zink-600">
     <div class="flex justify-between p-4 border-b border-slate-200 dark:border-zink-500">
         <div class="grow">
-            <h5 class="mb-1 text-16">Tailwick Theme Customizer</h5>
+            <h5 class="mb-1 text-16">Aetheinfi Theme Customizer</h5>
             <p class="font-normal text-slate-500 dark:text-zink-200">Choose your themes & layouts etc.</p>
         </div>
         <div class="shrink-0">
@@ -193,8 +193,8 @@
         </div>
         
     </div>
-    <div class="flex items-center justify-between gap-3 p-4 border-t border-slate-200 dark:border-zink-500">
+    <!-- <div class="flex items-center justify-between gap-3 p-4 border-t border-slate-200 dark:border-zink-500">
         <button type="button" id="reset-layout" class="w-full transition-all duration-200 ease-linear text-slate-500 btn bg-slate-200 border-slate-200 hover:text-slate-600 hover:bg-slate-300 hover:border-slate-300 focus:text-slate-600 focus:bg-slate-300 focus:border-slate-300 focus:ring focus:ring-slate-100">Reset</button>
         <a href="#!" class="w-full text-white transition-all duration-200 ease-linear bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100">Buy Now</a>
-    </div>
+    </div> -->
 </div>

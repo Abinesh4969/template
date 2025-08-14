@@ -17,7 +17,7 @@ new DataTable('#rowBorder');
 new DataTable('#hoverableTable');
 
 //Hoverable example
-new DataTable('#borderedTable');
+// new DataTable('#borderedTable');
 
 //Alternative pagination
 new DataTable('#alternativePagination', {
