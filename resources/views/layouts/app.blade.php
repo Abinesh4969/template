@@ -78,6 +78,13 @@
 <script src="{{asset('/app-assets/js/datatables/buttons.print.min.js')}}"></script>
  <!-- second initials end -->
 
+
+ <!-- Sweet Alerts js -->
+<script src="{{asset('/app-assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+
+<!--sweet alert init js-->
+<script src="{{asset('/app-assets/js/pages/sweetalert.init.js')}}"></script>
+
 <!-- Newly added  End-->  
 
 

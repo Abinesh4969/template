@@ -742,7 +742,7 @@ function resetLayout() {
 
 // two-column sidebar active js
 function initActiveMenu() {
-    var currentPath = location.pathname == "/" ? "index.html" : location.pathname.substring(1);
+    var currentPath = location.pathname == "/" ? "/" : location.pathname.substring(1);
     currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
     if (currentPath) {
         // navbar-nav

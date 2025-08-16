@@ -23,7 +23,7 @@
 <!--start card-->
     <div class="card">
         <div class="card-body">
-            <h6 class="mb-4 text-15">Bordered Table</h6>
+            <!-- <h6 class="mb-4 text-15">Bordered Table</h6> -->
             <table id="borderedTable" class="bordered group data-table table" style="width:100%">
                 <thead>
                    <tr>
@@ -111,29 +111,37 @@ $(document).ready(function () {
 
         ],
         order: [[0, 'desc']],
-        // Match template styling
-        // dom: '<"flex justify-between items-center mb-4"lf>t<"flex justify-between items-center mt-4"ip>',
-        // classes: {
-        //     sWrapper: "dataTables_wrapper dt-tailwind"
-        // },
+        //  dom: '<"flex justify-between items-center mb-4"Bf>rt<"flex justify-between items-center mt-4"lp>', 
+        //  dom: '<"flex justify-between items-center mb-4"<"left"l><"right"f>>t<"flex justify-between items-center mt-4"ip>',
+        dom: '<"flex justify-between items-center mb-4"<"flex items-center gap-3"l><"flex items-center gap-3"f<"add-btn">>>rt<"flex justify-between items-center mt-4"ip>',
+    initComplete: function () {
+        // Insert Add button into our custom "add-btn" container
+        $("div.add-btn").html(`
+            <a href="{{ route('states.create') }}" 
+               type="button" 
+               class="ml-3 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+               <i data-lucide="plus" class="inline-block size-4"></i> 
+               <span class="align-middle">Add State</span>
+            </a>
+        `);
+        lucide.createIcons();
+    },
+
         language: {
             sLengthMenu: 'Show _MENU_',
             search: 'Search',
             searchPlaceholder: 'Search...'
         },
-        // buttons: [
-        //     {
-        //         text: 'Add New',
-        //         className: 'add-new btn btn-primary',
-        //         action: function () {
-        //             window.location.href = "{{ route('states.create') }}";
-        //         },
-        //         init: function (api, node) {
-        //             $(node).removeClass('btn-secondary');
-        //             $(node).css('margin-bottom', '-8px');
-        //         }
-        //     }
-        // ],
+        buttons: [
+        {
+            text: '➕ Add New',
+            className: 'bg-custom-500 hover:bg-custom-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition',
+            action: function () {
+                window.location.href = "{{ route('states.create') }}";
+            }
+        }
+    ],
+
         drawCallback: function() {
             lucide.createIcons();
             //  feather.replace();
@@ -143,6 +151,7 @@ $(document).ready(function () {
     // Delete
     $(document).on('click', '.btn-delete', function() {
         let id = $(this).data('id');
+        
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
