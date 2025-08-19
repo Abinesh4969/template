@@ -150,7 +150,7 @@ class UserController extends Controller
                 ->map(function ($user) {
                     
                     $media = $user->getFirstMedia('profile_image');
-                    $imageUrl = $media ? asset('storage/app/public/' . $media->id . '/' . $media->file_name) : asset('app-assets/images/logo/unkownimage.png');
+                    $imageUrl = $media ? asset('storage/app/public/' . $media->id . '/' . $media->file_name) : asset('app-assets/images/users/user-dummy-img.jpg');
                     $mediaId = $media ? $media->id : null;
 
                     return [

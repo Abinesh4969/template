@@ -30,7 +30,7 @@
                         <th>ID</th>
                         <th>State Name</th>
                         <th>Status</th>
-                        <th>Deleted Status</th>
+                        <!-- <th>Deleted Status</th> -->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -70,15 +70,15 @@ $(document).ready(function () {
                         : "<span class='px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent'><span class='size-1.5 ltr:mr-1 rtl:ml-1 rounded-full bg-red-500 inline-block'></span> Inactive</span>";
                 }
             },
-            {
-                data: 'status_label',
-                name: 'status_label',
-                render: function(data) {
-                    return data === 'Deleted'
-                        ? '<span class="badge bg-danger">Deleted</span>'
-                        : '<span class="badge bg-success">Active</span>';
-                }
-            },
+            // {
+            //     data: 'status_label',
+            //     name: 'status_label',
+            //     render: function(data) {
+            //         return data === 'Deleted'
+            //             ? '<span class="badge bg-danger">Deleted</span>'
+            //             : '<span class="badge bg-success">Active</span>';
+            //     }
+            // },
             {
     data: 'actions',
     name: 'actions',
@@ -111,8 +111,6 @@ $(document).ready(function () {
 
         ],
         order: [[0, 'desc']],
-        //  dom: '<"flex justify-between items-center mb-4"Bf>rt<"flex justify-between items-center mt-4"lp>', 
-        //  dom: '<"flex justify-between items-center mb-4"<"left"l><"right"f>>t<"flex justify-between items-center mt-4"ip>',
         dom: '<"flex justify-between items-center mb-4"<"flex items-center gap-3"l><"flex items-center gap-3"f<"add-btn">>>rt<"flex justify-between items-center mt-4"ip>',
     initComplete: function () {
         // Insert Add button into our custom "add-btn" container
@@ -133,37 +131,37 @@ $(document).ready(function () {
             searchPlaceholder: 'Search...'
         },
         buttons: [
-        {
-            text: '➕ Add New',
-            className: 'bg-custom-500 hover:bg-custom-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition',
-            action: function () {
-                window.location.href = "{{ route('states.create') }}";
-            }
-        }
+        // {
+        //     text: '➕ Add New',
+        //     className: 'bg-custom-500 hover:bg-custom-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition',
+        //     action: function () {
+        //         window.location.href = "{{ route('states.create') }}";
+        //     }
+        // }
     ],
 
         drawCallback: function() {
             lucide.createIcons();
-            //  feather.replace();
         }
     });
 
-    // Delete
+        // Delete
     $(document).on('click', '.btn-delete', function() {
         let id = $(this).data('id');
-        
+
         Swal.fire({
-            title: 'Are you sure?',
+            title: "Are you sure?",
             text: "You won't be able to revert this!",
-            icon: 'warning',
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
             customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-outline-danger ms-1'
+                confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 ltr:mr-1 rtl:ml-1',
+                cancelButton: 'text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20',
             },
-            buttonsStyling: false
-        }).then(result => {
+            confirmButtonText: "Yes, delete it!",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function(result) {
             if (result.value) {
                 $.ajax({
                     url: '{{ route("states.destroy", ":id") }}'.replace(':id', id),
@@ -171,15 +169,33 @@ $(document).ready(function () {
                     data: { _token: '{{ csrf_token() }}' },
                     success: function() {
                         $('.data-table').DataTable().ajax.reload();
-                        Swal.fire('Deleted!', 'State deleted successfully.', 'success');
+
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'State deleted successfully.',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20',
+                            },
+                            buttonsStyling: false
+                        });
                     },
                     error: function() {
-                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong.',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20',
+                            },
+                            buttonsStyling: false
+                        });
                     }
                 });
             }
         });
     });
+
 
     // Restore
     $(document).on('click', '.btn-restore', function() {

@@ -1,75 +1,121 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- breadcrumb start -->
+<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div class="grow">
+        <h5 class="text-16">Users</h5>
+    </div>
+    <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 
+            before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+            <a href="{{ route('users.index') }}" class="text-slate-400 dark:text-zink-200">Users</a>
+        </li>
+        <li class="text-slate-700 dark:text-zink-100">
+            Edit
+        </li>
+    </ul>
+</div>
+<!-- breadcrumb end -->
 
-<section id="basic-horizontal-layouts">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-6 col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center position-relative">
-                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary btn-sm ms-auto">Back</a>
-                    <h4 class="card-title position-absolute top-50 start-50 translate-middle">
-                        Edit User
-                    </h4>
-                </div>
-
-                <div class="card-body">
-                   <form class="update-user-form" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" id="user_id" value="{{ $user->id }}">
-
-                        <!-- Name -->
-                        <div class="mb-1">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}">
-                        </div>
-
-                        <!-- Email -->
-                        <div class="mb-1">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}">
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="mb-1">
-                            <label for="phone" class="form-label">Phone (e.g., +91...)</label>
-                            <input type="text" name="phone" id="phone" class="form-control" value="{{ $user->phone }}">
-                        </div>
-
-                        <!-- Address -->
-                        <div class="mb-1">
-                            <label for="address" class="form-label">Address</label>
-                            <textarea name="address" id="address" class="form-control">{{ $user->address }}</textarea>
-                        </div>
-
-                        <!-- Image -->
-                        <div class="mb-1">
-                            <label for="image" class="form-label">Profile Image</label>
-                            <input type="file" name="image" id="image" class="form-control">
-                          @if($user->getFirstMedia('profile_image'))
-                            @php
-                                $media = $user->getFirstMedia('profile_image');
-                            @endphp
-                            <img src="{{ asset('storage/app/public/' . $media->id . '/' . $media->file_name) }}" width="80" height="80" style="object-fit: cover;margin-top:10px">
-                            @endif
-
-                        </div>
-
-                        <!-- Submit -->
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary" id="submitBtn">
-                                <span class="spinner-border spinner-border-sm d-none" id="submitLoader"></span>
-                                Update
-                            </button>
-                        </div>
-                    </form>
-
-                </div>
+<div class="flex justify-center p-4 mt-2">
+    <div class="w-full sm:w-full md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-2/5">
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Edit User</h2>
+                <a href="{{ route('users.index') }}" 
+                   class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-slate-100 
+                   dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 
+                   border border-slate-300 dark:border-slate-600">
+                    Back
+                </a>
             </div>
+
+            <form class="update-user-form" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <input type="hidden" id="user_id" value="{{ $user->id }}">
+
+                <div class="p-6 space-y-6">
+                    <!-- Name -->
+                    <div class="space-y-2">
+                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Name
+                        </label>
+                        <input type="text" name="name" id="name" value="{{ $user->name }}"
+                            placeholder="Enter name"
+                            class="w-full px-3 py-2.5 text-sm border rounded-md transition-colors duration-200 
+                            border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 
+                            dark:bg-zink-700 dark:text-zink-100 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Email
+                        </label>
+                        <input type="email" name="email" id="email" value="{{ $user->email }}"
+                            placeholder="Enter email"
+                            class="w-full px-3 py-2.5 text-sm border rounded-md transition-colors duration-200 
+                            border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 
+                            dark:bg-zink-700 dark:text-zink-100 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="space-y-2">
+                        <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Phone (e.g., +91...)
+                        </label>
+                        <input type="text" name="phone" id="phone" value="{{ $user->phone }}"
+                            placeholder="Enter phone"
+                            class="w-full px-3 py-2.5 text-sm border rounded-md transition-colors duration-200 
+                            border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 
+                            dark:bg-zink-700 dark:text-zink-100 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="space-y-2">
+                        <label for="address" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Address
+                        </label>
+                        <textarea name="address" id="address" rows="3"
+                            class="w-full px-3 py-2.5 text-sm border rounded-md transition-colors duration-200 
+                            border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 
+                            dark:bg-zink-700 dark:text-zink-100 placeholder:text-slate-400 dark:placeholder:text-zink-200">{{ $user->address }}</textarea>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="space-y-2">
+                        <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Profile Image
+                        </label>
+                        <input type="file" name="image" id="image"
+                            class="w-full px-3 py-2.5 text-sm border rounded-md transition-colors duration-200 
+                            border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 
+                            dark:bg-zink-700 dark:text-zink-100">
+                        @if($user->getFirstMedia('profile_image'))
+                            @php $media = $user->getFirstMedia('profile_image'); @endphp
+                            <img src="{{ asset('storage/app/public/' . $media->id . '/' . $media->file_name) }}" 
+                                 alt="Profile" class="mt-3 w-20 h-20 rounded-md object-cover border">
+                        @endif
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-center p-6 border-t border-slate-200 dark:border-slate-700 
+                    bg-slate-50 dark:bg-slate-800/50 rounded-b-lg">
+                    <button type="submit" id="submitBtn" 
+                        class="flex items-center justify-center gap-2 text-white px-6 py-2.5 text-sm font-medium 
+                        rounded-md transition-all duration-200 bg-custom-500 hover:bg-custom-600 focus:ring 
+                        focus:ring-custom-100 disabled:opacity-70">
+                        <span id="submitLoader" class="hidden inline-block border-2 rounded-full size-4 
+                        animate-spin border-l-transparent border-white"></span>
+                        Update
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</section>
-
+</div>
 @endsection
 
 @pushOnce('script')
@@ -79,22 +125,13 @@ $(document).ready(function () {
         e.preventDefault();
         $('.error-message').remove();
         $('#submitBtn').prop('disabled', true);
-        $('#submitLoader').removeClass('d-none');
+        $('#submitLoader').removeClass('hidden');
 
-        var formData = new FormData();
+        let formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
         formData.append('_method', 'PUT');
-        formData.append('name', $('#name').val());
-        formData.append('email', $('#email').val());
-        formData.append('phone', $('#phone').val());
-        //formData.append('status', $('#editStatus').is(':checked') ? 1 : 0);
 
-        var image = $('#image')[0].files[0];
-        if (image) {
-            formData.append('image', image);
-        }
-
-        var id = $('#user_id').val();
+        let id = $('#user_id').val();
 
         $.ajax({
             url: '{{ url("admin/users") }}/' + id,
@@ -104,34 +141,41 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 $('#submitBtn').prop('disabled', false);
-                $('#submitLoader').addClass('d-none');
+                $('#submitLoader').addClass('hidden');
 
                 Swal.fire({
                     title: 'Updated!',
-                    text: 'User updated successfully.',
+                    text: response.message || 'User updated successfully.',
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    customClass: {
+                        confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600',
+                    },
+                    buttonsStyling: false,
                 }).then(() => {
                     window.location.href = '{{ route("users.index") }}';
                 });
             },
             error: function (response) {
                 $('#submitBtn').prop('disabled', false);
-                $('#submitLoader').addClass('d-none');
+                $('#submitLoader').addClass('hidden');
 
                 if (response.status === 422) {
                     const errors = response.responseJSON.errors;
                     $.each(errors, function (key, value) {
                         const field = $('[name="' + key + '"]');
                         if (field.length) {
-                            field.after('<span class="error-message text-danger d-block mt-1">' + value[0] + '</span>');
+                            field.after('<span class="error-message text-red-500 text-sm mt-1 block">' + value[0] + '</span>');
                         }
                     });
                 } else {
                     Swal.fire({
                         title: 'Error!',
                         text: response.responseJSON?.message || 'Something went wrong.',
-                        icon: 'error'
+                        icon: 'error',
+                        customClass: {
+                            confirmButton: 'text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600',
+                        },
+                        buttonsStyling: false
                     });
                 }
             }

@@ -59,7 +59,7 @@ class DistrictController extends Controller
      */
     public function edit($id)
     {
-        $districts = District::withTrashed()->findOrFail($id);
+        $districts = District::findOrFail($id);
         $states = State::where('status', 1)->get();
         return view('admin.districts.edit', compact('districts', 'states'));
     }
@@ -91,18 +91,17 @@ class DistrictController extends Controller
         return response()->json(['success' => true, 'message' => 'District soft deleted.']);
     }
     
-    public function restore($id)
-    {
-        $District = District::onlyTrashed()->findOrFail($id);
-        $District->restore();
+    // public function restore($id)
+    // {
+    //     $District = District::onlyTrashed()->findOrFail($id);
+    //     $District->restore();
 
-        return response()->json(['success' => true, 'message' => 'District restored.']);
-    }
+    //     return response()->json(['success' => true, 'message' => 'District restored.']);
+    // }
 
     public function data()
     {
         $cities = District::with(['state'])
-            ->withTrashed()
             ->select(['id', 'name', 'state_id', 'status', 'deleted_at'])
             ->get()
             ->map(function ($District) {

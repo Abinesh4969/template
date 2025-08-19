@@ -1,61 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="content-overlay"></div>
-<div class="header-navbar-shadow"></div>
-<div class="content-wrapper container-xxl p-0">
-    <div class="content-header row">
-        <div class="content-header-left col-md-9 col-12 mb-2">
-            <div class="row breadcrumbs-top">
-                <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">cities</h2>
-                    <div class="breadcrumb-wrapper">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                            <li class="breadcrumb-item active"><a href="#">cities</a></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- bread crumb start-->
+<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div class="grow">
+        <h5 class="text-16">Cities</h5>
     </div>
+    <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  
+                   before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 
+                   before:text-slate-400 dark:text-zink-200">
+            <a href="{{ route('dashboard') }}" class="text-slate-400 dark:text-zink-200">Dashboard</a>
+        </li>
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  
+                   before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 
+                   before:text-slate-400 dark:text-zink-200">
+            <span>Masters</span>
+        </li>
+        <li class="text-slate-700 dark:text-zink-100">Cities</li>
+    </ul>
+</div>
+<!-- bread crumb End -->
 
-    <div class="content-body">
-        <section>
-            <div class="card">
-                <div class="card-datatable table-responsive">
-                    <table id="cityTable" class="data-table table">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>City Name</th>
-                                <th>District Name</th>
-                                <th>Status</th>
-                                <th>Deleted Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </section>
+<!--start card-->
+<div class="card">
+    <div class="card-body">
+        <table id="cityTable" class="bordered group data-table table w-full">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>City Name</th>
+                    <th>District Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
-
+<!--end card-->
 @endsection
 
 @pushOnce('script')
 <script>
 $(document).ready(function () {
-    $('.data-table').DataTable({
+    var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: {
-            url: '{{ route("cities_data") }}',
-            type: 'GET'
-        }, 
+        ajax: '{{ route("cities_data") }}',
         columns: [
             { data: 'id', name: 'id' },
             { data: 'city_name', name: 'city_name' },
@@ -63,19 +55,10 @@ $(document).ready(function () {
             {
                 data: 'status',
                 name: 'status',
-                render: function (data) {
-                    return data == 1
-                        ? '<span class="badge badge-light-success">Active</span>'
-                        : '<span class="badge badge-light-danger">Inactive</span>';
-                }
-            },
-            {
-                data: 'status_label',
-                name: 'status_label',
                 render: function(data) {
-                    return data === 'Deleted'
-                        ? '<span class="badge bg-danger">Deleted</span>'
-                        : '<span class="badge bg-success">Active</span>';
+                    return data == 1
+                        ? "<span class='px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent'><span class='size-1.5 ltr:mr-1 rtl:ml-1 rounded-full bg-green-500 inline-block'></span> Active</span>"
+                        : "<span class='px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent'><span class='size-1.5 ltr:mr-1 rtl:ml-1 rounded-full bg-red-500 inline-block'></span> Inactive</span>";
                 }
             },
             {
@@ -83,82 +66,70 @@ $(document).ready(function () {
                 name: 'actions',
                 orderable: false,
                 searchable: false,
-                render: function (data, type, full, meta) {
-                    return (
-                        '<a href="{{ url("admin/cities") }}/' + full.id + '/edit" class="btn btn-sm btn-primary">' +
-                        '<i data-feather="edit"></i></a> ' +
-                        (full.deleted_at != null
-                            ? '<button class="btn-restore btn-sm btn btn-success" data-id="' + full.id + '" >' +
-                              '<i data-feather="rotate-ccw"></i></button> '
-                            : '') +
-                        (full.deleted_at == null
-                            ? '<a href="#" class="btn btn-sm btn-danger btn-delete" data-id="' + full.id + '">' +
-                              '<i data-feather="trash-2"></i></a>'
-                            : '')
-                    );
+                render: function(data, type, full) {
+                    return `
+                        <div class="flex gap-2">
+                            <a href="{{ url('admin/cities') }}/${full.id}/edit" 
+                               class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20">
+                                <i data-lucide="pencil" class="size-4"></i>
+                            </a>
+
+                            ${full.deleted_at == null ? `
+                            <a href="#!" data-id="${full.id}" class="btn-delete flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                <i data-lucide="trash-2" class="size-4"></i>
+                            </a>` : ''}
+
+                            ${full.deleted_at != null ? `
+                            <a href="#!" data-id="${full.id}" class="btn-restore flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-green-500 dark:hover:text-green-500 hover:bg-green-100 dark:hover:bg-green-500/20">
+                                <i data-lucide="rotate-ccw" class="size-4"></i>
+                            </a>` : ''}
+                        </div>`;
                 }
             }
         ],
         order: [[0, 'desc']],
-        dom:
-            '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
-            '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
-            '<"col-sm-12 col-lg-8 ps-xl-75 ps-0"<"dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap"<"me-1"f>B>>' +
-            '>t' +
-            '<"d-flex justify-content-between mx-2 row mb-1"' +
-            '<"col-sm-12 col-md-6"i>' +
-            '<"col-sm-12 col-md-6"p>' +
-            '>',
+        dom: '<"flex justify-between items-center mb-4"<"flex items-center gap-3"l><"flex items-center gap-3"f<"add-btn">>>rt<"flex justify-between items-center mt-4"ip>',
+        initComplete: function () {
+            $("div.add-btn").html(`
+                <a href="{{ route('cities.create') }}" 
+                   class="ml-3 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                   <i data-lucide="plus" class="inline-block size-4"></i> 
+                   <span class="align-middle">Add City</span>
+                </a>
+            `);
+            lucide.createIcons();
+        },
         language: {
             sLengthMenu: 'Show _MENU_',
             search: 'Search',
             searchPlaceholder: 'Search...'
         },
-        buttons: [
-            {
-                text: 'Add New',
-                className: 'add-new btn btn-primary',
-                action: function () {
-                    window.location.href = "{{ route('cities.create') }}";
-                },
-                init: function (api, node) {
-                    $(node).removeClass('btn-secondary');
-                    $(node).css('margin-bottom', '-8px');
-                }
-            }
-        ],
-        drawCallback: function() {
-            feather.replace();
-        }
+        drawCallback: function() { lucide.createIcons(); }
     });
 
     // Delete
     $(document).on('click', '.btn-delete', function() {
         let id = $(this).data('id');
         Swal.fire({
-            title: 'Are you sure?',
+            title: "Are you sure?",
             text: "You won't be able to revert this!",
-            icon: 'warning',
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: "Yes, delete it!",
             customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-outline-danger ms-1'
+                confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:bg-custom-600 hover:border-custom-600 focus:ring focus:ring-custom-100',
+                cancelButton: 'text-white btn bg-red-500 hover:bg-red-600 focus:ring focus:ring-red-100'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            showCloseButton: true
         }).then(result => {
-            if (result.value) {
+            if(result.isConfirmed){
                 $.ajax({
                     url: '{{ route("cities.destroy", ":id") }}'.replace(':id', id),
-                    method: 'DELETE',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function() {
-                        $('.data-table').DataTable().ajax.reload();
-                        Swal.fire('Deleted!', 'City deleted successfully.', 'success');
-                    },
-                    error: function() {
-                        Swal.fire('Error!', 'Something went wrong.', 'error');
-                    }
+                    type: 'DELETE',
+                    data: {_token: '{{ csrf_token() }}'},
+                    success: function(){ table.ajax.reload(); Swal.fire('Deleted!', 'City deleted successfully.', 'success'); },
+                    error: function(){ Swal.fire('Error!', 'Something went wrong.', 'error'); }
                 });
             }
         });
@@ -168,29 +139,25 @@ $(document).ready(function () {
     $(document).on('click', '.btn-restore', function() {
         let id = $(this).data('id');
         Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you want to recover this city?",
-            icon: 'question',
+            title: "Are you sure?",
+            text: "Do you want to restore this city?",
+            icon: "question",
             showCancelButton: true,
-            confirmButtonText: 'Yes, restore it!',
+            confirmButtonText: "Yes, restore it!",
             customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-outline-secondary ms-1'
+                confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:bg-custom-600 hover:border-custom-600 focus:ring focus:ring-custom-100',
+                cancelButton: 'text-white btn bg-red-500 hover:bg-red-600 focus:ring focus:ring-red-100'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            showCloseButton: true
         }).then(result => {
-            if (result.value) {
+            if(result.isConfirmed){
                 $.ajax({
                     url: '{{ route("cities.restore", ":id") }}'.replace(':id', id),
-                    method: 'POST',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function() {
-                        $('.data-table').DataTable().ajax.reload();
-                        Swal.fire('Restored!', 'City has been recovered.', 'success');
-                    },
-                    error: function() {
-                        Swal.fire('Error!', 'Something went wrong.', 'error');
-                    }
+                    type: 'POST',
+                    data: {_token: '{{ csrf_token() }}'},
+                    success: function(){ table.ajax.reload(); Swal.fire('Restored!', 'City restored successfully.', 'success'); },
+                    error: function(){ Swal.fire('Error!', 'Something went wrong.', 'error'); }
                 });
             }
         });

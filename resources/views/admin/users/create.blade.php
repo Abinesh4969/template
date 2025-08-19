@@ -1,167 +1,152 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- bread crumb start-->
+<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div class="grow">
+        <h5 class="text-16">Users</h5>
+    </div>
+    <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+        <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+            <a href="{{ route('users.index') }}" class="text-slate-400 dark:text-zink-200">Users</a>
+        </li>
+        <li class="text-slate-700 dark:text-zink-100">Create</li>
+    </ul>
+</div>
+<!-- bread crumb End -->
 
-<section id="basic-horizontal-layouts">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-6 col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center position-relative">
-                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary btn-sm ms-auto">Back</a>
-                    <h4 class="card-title position-absolute top-50 start-50 translate-middle">
-                        Create User
-                    </h4>
-                </div>
-
-                <div class="card-body">
-                   <form class="form form-horizontal add-user-form" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-
-                            <!-- Name -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="name">Name</label></div>
-                                    <div class="col-sm-9"><input type="text" id="name" name="name" class="form-control" placeholder="Enter name"></div>
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="email">Email</label></div>
-                                    <div class="col-sm-9"><input type="email" id="email" name="email" class="form-control" placeholder="Enter email"></div>
-                                </div>
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="phone">Phone</label></div>
-                                    <div class="col-sm-9"><input type="text" id="phone" name="phone" class="form-control" placeholder="Enter phone"></div>
-                                </div>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="password">Password</label></div>
-                                    <div class="col-sm-9"><input type="password" id="password" name="password" class="form-control" placeholder="Enter password"></div>
-                                </div>
-                            </div>
-
-                            <!-- Image -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="image">Image</label></div>
-                                    <div class="col-sm-9"><input type="file" id="image" name="image" class="form-control"></div>
-                                </div>
-                            </div>
-
-                              <!-- Unique Code -->
-                            <div class="col-12">
-                                <div class="mb-1 row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="col-form-label" for="unique_code">Unique Code</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="unique_code" name="unique_code" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <!-- Date of Birth -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="dob">Date of Birth</label></div>
-                                    <div class="col-sm-9"><input type="date" id="dob" name="dob" class="form-control"></div>
-                                </div>
-                            </div>
-
-                            <!-- Gender -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="gender">Gender</label></div>
-                                    <div class="col-sm-9">
-                                        <select name="gender" id="gender" class="form-control">
-                                            <option value="">-- Select Gender --</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Nationality -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="nationality">Nationality</label></div>
-                                    <div class="col-sm-9"><input type="text" id="nationality" name="nationality" class="form-control" placeholder="Enter nationality"></div>
-                                </div>
-                            </div>
-
-                            <!-- Country of Residence -->
-                            <div class="col-12">
-                                <div class="mb-1 row">
-                                    <div class="col-sm-3"><label class="col-form-label" for="country">Country of Residence</label></div>
-                                    <div class="col-sm-9"><input type="text" id="country" name="country" class="form-control" placeholder="Enter country of residence"></div>
-                                </div>
-                            </div>
-
-                            <!-- Submit -->
-                            <div class="col-sm-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary me-1" id="submitBtn">
-                                    <span class="spinner-border spinner-border-sm d-none" id="submitLoader"></span> Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-
-                </div>
-
+<div class="flex justify-center p-4 mt-2">
+    <div class="w-full sm:w-full md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-2/5">
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100">Create User</h2>
+                <a href="{{ route('users.index') }}" 
+                   class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600">
+                    Back
+                </a>
             </div>
+
+            <!-- Form -->
+            <form class="add-user-form" enctype="multipart/form-data">
+                @csrf
+                <div class="p-6 space-y-6">
+                    <!-- Two column grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <!-- Name -->
+                        <div class="space-y-2">
+                            <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter name"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="space-y-2">
+                            <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter email"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="space-y-2">
+                            <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Phone</label>
+                            <input type="text" id="phone" name="phone" placeholder="Enter phone"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Password -->
+                        <div class="space-y-2">
+                            <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter password"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Image -->
+                        <div class="space-y-2">
+                            <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Image
+                            </label>
+                            <input type="file" id="image" name="image"
+                                class="block w-full text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 
+                                    dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                        </div>
+
+                        <!-- Unique Code -->
+                        <div class="space-y-2">
+                            <label for="unique_code" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Unique Code</label>
+                            <input type="text" id="unique_code" name="unique_code" placeholder="Enter unique code"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="space-y-2">
+                            <label for="dob" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Date of Birth</label>
+                            <input type="date" id="dob" name="dob"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="space-y-2">
+                            <label for="gender" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Gender</label>
+                            <select id="gender" name="gender"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                                <option value="">-- Select Gender --</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Nationality -->
+                        <div class="space-y-2">
+                            <label for="nationality" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nationality</label>
+                            <input type="text" id="nationality" name="nationality" placeholder="Enter nationality"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                        <!-- Country of Residence -->
+                        <div class="space-y-2">
+                            <label for="country_of_residence" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Country of Residence</label>
+                            <input type="text" id="country_of_residence" name="country_of_residence" placeholder="Enter country"
+                                class="w-full px-3 py-2.5 text-sm border rounded-md border-slate-200 dark:border-zink-500 focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100">
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex items-center justify-center p-6 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-lg">
+                    <button type="submit" id="submitBtn" 
+                        class="flex items-center justify-center gap-2 text-white px-6 py-2.5 text-sm font-medium rounded-md transition-all duration-200 bg-custom-500 hover:bg-custom-600 focus:ring focus:ring-custom-100 disabled:opacity-70">
+                        <span id="submitLoader" class="hidden inline-block border-2 rounded-full size-4 animate-spin border-l-transparent border-white"></span>
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</section>
-
+</div>
 @endsection
 
 @pushOnce('script')
 <script>
 $(document).ready(function () {
-    
-     $('#email').on('input', function () {
-            this.value = this.value.toLowerCase();
-        });
-        
-         $('.add-user-form').on('submit', function(e) {
+    $('#email').on('input', function () {
+        this.value = this.value.toLowerCase();
+    });
+
+    $('.add-user-form').on('submit', function(e) {
         e.preventDefault();
         $('.error-message').remove();
         $('#submitBtn').prop('disabled', true);
-        $('#submitLoader').removeClass('d-none');
+        $('#submitLoader').removeClass('hidden');
 
-        let formData = new FormData();
-        formData.append('_token', '{{ csrf_token() }}');
-        formData.append('name', $('#name').val());
-        formData.append('email', $('#email').val());
-        formData.append('phone', $('#phone').val());
+        let formData = new FormData(this);
+
         formData.append('role', 'user');
-        formData.append('address', $('#address').val());
-        formData.append('password', $('#password').val());
-        formData.append('unique_code', $('#unique_code').val());
-        formData.append('dob', $('#dob').val());
-        formData.append('gender', $('#gender').val());
-        formData.append('nationality', $('#nationality').val());
-        formData.append('country_of_residence', $('#country_of_residence').val());
-
-        // Append image only if selected
-        if ($('#image')[0].files.length > 0) {
-            formData.append('image', $('#image')[0].files[0]);
-        }
+        formData.append('_token', '{{ csrf_token() }}');
 
         $.ajax({
             type: 'POST',
@@ -171,25 +156,26 @@ $(document).ready(function () {
             processData: false,
             success: function(response) {
                 $('#submitBtn').prop('disabled', false);
-                $('#submitLoader').addClass('d-none');
-
+                $('#submitLoader').addClass('hidden');
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
                     text: 'User created successfully',
                 }).then(() => {
-                    window.location.href = "{{ route('users.index') }}"; // or refresh or redirect
+                    window.location.href = "{{ route('users.index') }}";
                 });
             },
             error: function(xhr) {
                 $('#submitBtn').prop('disabled', false);
-                $('#submitLoader').addClass('d-none');
+                $('#submitLoader').addClass('hidden');
 
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
                     for (const [key, messages] of Object.entries(errors)) {
-                        let input = $('#' + key);
-                        input.after(`<div class="text-danger error-message">${messages[0]}</div>`);
+                        let input = $('[name="' + key + '"]');
+                        if (input.length) {
+                            input.after(`<span class="error-message text-red-500 text-sm mt-1 block">${messages[0]}</span>`);
+                        }
                     }
                 } else {
                     Swal.fire({
@@ -201,7 +187,6 @@ $(document).ready(function () {
             }
         });
     });
-
 });
 </script>
 @endPushOnce

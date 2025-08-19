@@ -95,7 +95,7 @@ class CityController extends Controller
     
     public function restore($id)
     {
-        $City = City::onlyTrashed()->findOrFail($id);
+        $City = City::findOrFail($id);
         $City->restore();
 
         return response()->json(['success' => true, 'message' => 'City restored.']);
@@ -104,7 +104,6 @@ class CityController extends Controller
     public function data()
     {
         $cities = City::with(['district'])
-            ->withTrashed()
             ->select(['id', 'name', 'district_id', 'status', 'deleted_at'])
             ->get()
             ->map(function ($city) {

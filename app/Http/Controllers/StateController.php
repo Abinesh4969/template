@@ -58,7 +58,7 @@ class StateController extends Controller
      */
      public function edit($id)
     {
-        $state = State::withTrashed()->findOrFail($id);
+        $state = State::findOrFail($id);
         return view('admin.states.edit', compact('state'));
     }
 
@@ -88,17 +88,16 @@ class StateController extends Controller
         return response()->json(['success' => true, 'message' => 'State soft deleted.']);
     }
     
-    public function restore($id)
-    {
-        $State = State::onlyTrashed()->findOrFail($id);
-        $State->restore();
+    // public function restore($id)
+    // {
+    //     $State = State::onlyTrashed()->findOrFail($id);
+    //     $State->restore();
 
-        return response()->json(['success' => true, 'message' => 'State restored.']);
-    }
+    //     return response()->json(['success' => true, 'message' => 'State restored.']);
+    // }
 
     public function data(){
-         $states = State::withTrashed()
-        ->select(['id', 'name', 'status', 'deleted_at'])
+         $states = State::select(['id', 'name', 'status', 'deleted_at'])
         ->get()
         ->map(function ($state) {
             return [

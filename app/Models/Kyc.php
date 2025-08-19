@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Kyc extends Model implements HasMedia
-{
+{ 
      use InteractsWithMedia; 
          protected $fillable = [
         'user_id',
