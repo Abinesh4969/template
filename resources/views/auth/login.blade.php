@@ -2,11 +2,11 @@
 <html lang="en" class="light scroll-smooth group" data-layout="vertical" data-sidebar="light" data-sidebar-size="lg" data-mode="light" data-topbar="light" data-skin="default" data-navbar="sticky" data-content="fluid" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Sign In | Aetheinfi - Admin & Dashboard Template</title>
+    <title>Sign In | Aetheinfi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta content="Minimal Admin & Dashboard Template" name="description">
     <meta content="Themesdesign" name="author">
-    <link rel="shortcut icon" href="{{ asset('app-assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('app-assets/images/logo/darklogo.png') }}">
     <script src="{{ asset('app-assets/js/layout.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('app-assets/css/tailwind2.css') }}">
 </head>
@@ -95,14 +95,14 @@
                 <div class="flex items-center justify-between gap-3">
                     <div class="grow">
                         <a href="/">
-                            <img src="{{ asset('app-assets/images/logo-light.png') }}" alt="" class="hidden h-6 dark:block">
-                            <img src="{{ asset('app-assets/images/logo-dark.png') }}" alt="" class="block h-6 dark:hidden">
+                            <img src="{{ asset('app-assets/images/logo/lightlogo.png') }}" style="" alt="" class="hidden h-32 dark:block">
+                            <img src="{{ asset('app-assets/images/logo/darklogo.png') }}" alt="" class="block h-32 dark:hidden">
                         </a>
                     </div>
                 </div>
-                <div class="mt-auto">
+                <!-- <div class="mt-auto">
                     <img src="{{ asset('app-assets/images/img-01.png') }}" alt="" class="md:max-w-[32rem] mx-auto">
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

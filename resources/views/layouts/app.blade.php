@@ -4,14 +4,16 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Ecommerce | Aetheinfi - Admin & Dashboard Template</title>
+    <title>
+         @yield('title', 'Aetheinfi')
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta content="Minimal Admin & Dashboard Template" name="description">
     <meta content="Themesdesign" name="author">
     <!-- App favicon -->
      
      
-    <link rel="shortcut icon" href="{{asset('app-assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{asset('app-assets/images/logo/darklogo.png')}}">
     <!-- Layout config Js -->
     <script src="{{asset('app-assets/js/layout.js')}}"></script>
     <!-- Icons CSS -->

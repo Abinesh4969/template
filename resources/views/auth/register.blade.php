@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Aetheinfi Registration" name="description">
     <meta content="Themesdesign" name="author">
-  <link rel="shortcut icon" href="{{ asset('app-assets/images/favicon.ico') }}">
+  <link rel="shortcut icon" href="{{ asset('app-assets/images/logo/darklogo.png') }}">
     <script src="{{ asset('app-assets/js/layout.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('app-assets/css/tailwind2.css') }}">
 </head>

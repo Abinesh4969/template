@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Dashboard | Aetheinfi')
 @section('content')
  <!-- bread crumb -->
 <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
