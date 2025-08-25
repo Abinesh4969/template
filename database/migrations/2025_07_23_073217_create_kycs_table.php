@@ -13,21 +13,19 @@ return new class extends Migration
     { 
         Schema::create('kycs', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            // KYC Uploads
-            $table->string('aadhaar')->nullable();
-            $table->string('pan_card')->nullable();
-            $table->string('gst_certificate')->nullable();
-            // UPI / GPay
-            $table->string('upi_id')->nullable();
-            $table->string('upi_mobile_number')->nullable();
-            // Bank Details
-            $table->string('account_holder_name')->nullable();
-            $table->string('bank_name')->nullable();
-            $table->string('bank_branch')->nullable();
-            $table->string('account_number')->nullable();
-            $table->string('ifsc_code')->nullable();
-
+            $table->string('government_id_number')->nullable();
+            $table->string('tax_id')->nullable();
+            $table->string('address_line')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('government_id_file')->nullable(); 
+            $table->string('proof_of_address_file')->nullable();
+            $table->string('live_selfie_file')->nullable();
+            $table->string('partnership_agreement_file')->nullable();
+            $table->string('contracts_file')->nullable();
+            $table->string('nda_file')->nullable();
             // Status
             $table->boolean('is_verified')->default(false);
             $table->timestamps();
