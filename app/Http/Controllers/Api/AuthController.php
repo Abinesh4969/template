@@ -51,11 +51,14 @@ class AuthController extends Controller
         $userExists = \App\Models\User::where('unique_code', $request->unique_code)->exists();
 
         if ($userExists) {
-
             return response()->json([
+                'data' => [
                 'status' => true,
+                'unique_code' => $request->unique_code,
                 'message' => 'Unique code verified. You can now access the login page.'
+                ]
             ]);
+
         }
 
         return response()->json([
