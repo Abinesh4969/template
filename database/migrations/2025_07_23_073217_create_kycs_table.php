@@ -13,20 +13,15 @@ return new class extends Migration
     { 
         Schema::create('kycs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->unique();
+            $table->enum('government_id_type', ['aadhaar', 'passport', 'driver_license', 'voter_id', 'pan', 'other'])->nullable();
             $table->string('government_id_number')->nullable();
             $table->string('tax_id')->nullable();
             $table->string('address_line')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('country')->nullable();
-            $table->string('postal_code')->nullable();
-            $table->string('government_id_file')->nullable(); 
-            $table->string('proof_of_address_file')->nullable();
-            $table->string('live_selfie_file')->nullable();
-            $table->string('partnership_agreement_file')->nullable();
-            $table->string('contracts_file')->nullable();
-            $table->string('nda_file')->nullable();
-            // Status
+            $table->foreignId('district_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('state_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('city_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('postal_code', 20)->nullable();
             $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });

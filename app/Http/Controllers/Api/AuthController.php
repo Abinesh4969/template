@@ -11,31 +11,25 @@ use App\Http\Requests\VerifyOtpRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\DB;
+use App\Models\Kyc;
+use Exception;
+
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)
     { 
-        
-        //   $otp = rand(100000, 999999);
-        $otp = 1234;
 
         $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => $request->role,
-            'otp_code' => $otp,
-            'otp_verified' => false,
-            'kyc_verified' => false, 
+            'role' => 'user',
         ]);
 
-        $user->assignRole($request->role); 
-        $user->otp_code = 1234;
-        $user->otp_expires_at = now()->addMinutes(5);
+        $user->assignRole('user'); 
         $user->save();
-        // $this->sendOtp($user->phone, $otp);
-
         return response()->json([
             'token' => $user->createToken('api-token')->plainTextToken,
             'data' => new UserResource($user),
@@ -193,45 +187,88 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function updateKyc(KycUpdateRequest $request)
+
+        public function updateKyc(KycUpdateRequest $request)
     {
-        $user = auth()->user();
+        DB::beginTransaction();
 
-        if (!$user->otp_verified) {
+        try {
+            // Check if KYC already exists for this user
+            $kyc = Kyc::where('user_id', auth()->id())->first();
+
+            if ($kyc) {
                 return response()->json([
-                    'message' => 'You must verify your account before submitting KYC.',
                     'status' => false,
-                ], 403);
+                    'message' => 'KYC already exists. Please update instead.'
+                ], 409);
             }
-        $kyc = $user->kyc()->updateOrCreate(
-            ['user_id' => $user->id],
-            $request->only([
-                'upi_id',
-                'upi_mobile',
-                'account_holder_name',
-                'bank_name',
-                'bank_branch',
-                'account_number',
-                'ifsc_code',
-            ])
-        );
 
-        if ($request->hasFile('aadhaar')) {
-            $kyc->addMediaFromRequest('aadhaar')->toMediaCollection('aadhaar');
-        }
+            // Create new KYC record
+            $kyc = Kyc::create([
+                'user_id'             => auth()->id(),
+                'government_id_type'  => $request->government_id_type,
+                'government_id_number'=> $request->government_id_number,
+                'tax_id'              => $request->tax_id,
+                'address_line'        => $request->address_line,
+                'state_id'            => $request->state_id,
+                'district_id'         => $request->district_id,
+                'city_id'             => $request->city_id,
+                'postal_code'         => $request->postal_code,
+                'is_verified'         => false,
+            ]);
 
-        if ($request->hasFile('pan_card')) {
-            $kyc->addMediaFromRequest('pan_card')->toMediaCollection('pan_card');
-        }
+            /** ---------- FILE UPLOADS ---------- **/
 
-            if ($request->hasFile('gst_certificate')) {
-            $kyc->addMediaFromRequest('gst_certificate')->toMediaCollection('gst_certificate');
+            // Government ID file
+            if ($request->hasFile('government_id_file')) {
+                $kyc->addMediaFromRequest('government_id_file')->toMediaCollection('government_id_file');
+            }
+
+            // Proof of address file
+            if ($request->hasFile('proof_of_address_file')) {
+                $kyc->addMediaFromRequest('proof_of_address_file')->toMediaCollection('proof_of_address_file');
+            }
+
+            // Live selfie file
+            if ($request->hasFile('live_selfie_file')) {
+                $kyc->addMediaFromRequest('live_selfie_file')->toMediaCollection('live_selfie_file');
+            }
+
+            // Partnership agreement file
+            if ($request->hasFile('partnership_agreement_file')) {
+                $kyc->addMediaFromRequest('partnership_agreement_file')->toMediaCollection('partnership_agreement_file');
+            }
+
+            // Contracts file
+            if ($request->hasFile('contracts_file')) {
+                $kyc->addMediaFromRequest('contracts_file')->toMediaCollection('contracts_file');
+            }
+
+            // NDA file
+            if ($request->hasFile('nda_file')) {
+                $kyc->addMediaFromRequest('nda_file')->toMediaCollection('nda_file');
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'KYC details submitted successfully.',
+                'data' => $kyc->load('media')
+            ]);
+
         } 
-            
-        return response()->json([
-            'message' => 'KYC updated successfully',
-            'status' => true,
-        ]);
+        catch (Exception $e) {
+        DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to submit KYC details.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
     }
+
+
 
 }

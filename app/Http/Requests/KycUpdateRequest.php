@@ -29,27 +29,30 @@ class KycUpdateRequest extends FormRequest
         // Common file rules
         $fileRule = ['file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'];
 
-        $rules = [
-            // UPI
-            'upi_id' => ['required', 'string'],
-            'upi_mobile' => ['required', 'digits:10'],
+      return [
+            'government_id_type' => 'nullable|in:aadhaar,national_id,passport,driver_license,voter_id,pan,other',
+            'government_id_number' => 'nullable|string|max:255',
+            'tax_id' => 'nullable|string|max:255',
+            'address_line' => 'nullable|string|max:255',
 
-            // Bank Details
-            'account_holder_name' => ['required', 'string'],
-            'bank_name' => ['required', 'string'],
-            'bank_branch' => ['required', 'string'],
-            'account_number' => ['required', 'string'],
-            'ifsc_code' => ['required', 'string'],
+            'state_id' => 'nullable|exists:states,id',
+            'district_id' => 'nullable|exists:districts,id',
+            'city_id' => 'nullable|exists:cities,id',
+            'postal_code' => 'nullable|string|max:20',
 
-            // Aadhaar (required for all roles)
-            'aadhaar' => array_merge(['required'], $fileRule),
+            'government_id_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'proof_of_address_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'live_selfie_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'partnership_agreement_file' => 'nullable|file|mimes:pdf|max:2048',
+            'contracts_file' => 'nullable|file|mimes:pdf|max:2048',
+            'nda_file' => 'nullable|file|mimes:pdf|max:2048',
         ];
 
         // Dealer-specific documents
-        if ($role === 'dealer') {
-            $rules['pan_card'] = array_merge(['required'], $fileRule);
-            $rules['gst_certificate'] = array_merge(['required'], $fileRule);
-        }
+        // if ($role === 'dealer') {
+        //     $rules['pan_card'] = array_merge(['required'], $fileRule);
+        //     $rules['gst_certificate'] = array_merge(['required'], $fileRule);
+        // }
 
         return $rules;
     }

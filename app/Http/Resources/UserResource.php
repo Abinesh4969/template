@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'roles' => $this->getRoleNames()->first(), 
             // 'otp_verified'=> $this->otp_verified,
-            // 'kyc_verified'=> $this->kyc_verified,
+            'kyc_verified'=> $this->is_verified,
         ];
     }
 }

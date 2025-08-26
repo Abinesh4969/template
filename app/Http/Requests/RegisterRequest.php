@@ -34,12 +34,12 @@ class RegisterRequest extends FormRequest
                 'min:8',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
             ],
-            'role' => 'required|in:user,broker',
+            // 'role' => 'nullable|in:user,broker',
             'address' => 'nullable|string|max:500',
-            'dob' => 'required|date',
             'gender' => 'nullable|in:male,female,other',
-            'nationality' => 'required|string|max:100',
-            'country_of_residence' => 'required|string|max:100',
+            'dob' => 'nullable|date',
+            'nationality' => 'nullable|string|max:100',
+            'country_of_residence' => 'nullable|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
         ];
 
