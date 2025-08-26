@@ -33,16 +33,16 @@ class UserController extends Controller
     
     public function show($id){
 
-        $user = User::with(['media'])
+        $user = User::with(['media','kyc.media'])
         ->find($id);
 
         // Check if the user exists
         if (!$user) {
         return redirect()->route('admin.users.index')->with('error', 'User not found');
         }
-
+       $kyc = $user->kyc;
         // Return a view with the user data
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user', 'kyc'));
         
 
     }
