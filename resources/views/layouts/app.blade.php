@@ -57,10 +57,10 @@
 <script src="{{asset('/app-assets/libs/lucide/umd/lucide.js')}}"></script>
 <script src="{{asset('/app-assets/js/tailwick.bundle.js')}}"></script>
 <!--apexchart js-->
-<script src="{{asset('/app-assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+<!-- <script src="{{asset('/app-assets/libs/apexcharts/apexcharts.min.js')}}"></script> -->
 
 <!--dashboard ecommerce init js-->
-<script src="{{asset('/app-assets/js/pages/dashboards-ecommerce.init.js')}}"></script>
+<!-- <script src="{{asset('/app-assets/js/pages/dashboards-ecommerce.init.js')}}"></script> -->
 
 <!-- Newly added  -->  
 

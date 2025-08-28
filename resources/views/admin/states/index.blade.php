@@ -84,14 +84,14 @@ $(document).ready(function () {
     name: 'actions',
     orderable: false,
     searchable: false,
+                    // <a href="{{ url('admin/states') }}/${full.id}" 
+                    // class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                    //     <i data-lucide="eye" class="size-4"></i>
+                    // </a>
     render: function (data, type, full, meta) {
             return `
                 <div class="flex gap-2">
                     <!-- View -->
-                    <a href="{{ url('admin/states') }}/${full.id}" 
-                    class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-500/20">
-                        <i data-lucide="eye" class="size-4"></i>
-                    </a>
 
                     <!-- Edit -->
                     <a href="{{ url('admin/states') }}/${full.id}/edit" 
