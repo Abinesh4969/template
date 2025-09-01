@@ -200,7 +200,7 @@ class AuthController extends Controller
             if ($kyc) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'KYC already exists. Please update instead.'
+                    'message' => 'KYC already exists. Waiting for Admin approval.'
                 ], 409);
             }
 
