@@ -27,33 +27,26 @@ class KycUpdateRequest extends FormRequest
         $role = $user->role;
 
         // Common file rules
-        $fileRule = ['file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'];
+        $fileRule = ['file', 'mimes:jpg,jpeg,png,pdf', 'max:10240'];
 
       return [
-            'government_id_type' => 'nullable|in:aadhaar,national_id,passport,driver_license,voter_id,pan,other',
-            'government_id_number' => 'nullable|string|max:255',
-            'tax_id' => 'nullable|string|max:255',
-            'address_line' => 'nullable|string|max:255',
+            'government_id_type' => 'required|in:aadhaar,national_id,passport,driver_license,voter_id,pan,other',
+            'government_id_number' => 'required|string|max:255',
+            'tax_id' => 'required|string|max:255',
+            'address_line' => 'required|string|max:255',
 
-            'state_id' => 'nullable|exists:states,id',
-            'district_id' => 'nullable|exists:districts,id',
-            'city_id' => 'nullable|exists:cities,id',
-            'postal_code' => 'nullable|string|max:20',
+            'state_id' => 'required|exists:states,id',
+            'district_id' => 'required|exists:districts,id',
+            'city_id' => 'required|exists:cities,id',
+            'postal_code' => 'required|string|max:20',
 
-            'government_id_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'proof_of_address_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'live_selfie_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'partnership_agreement_file' => 'nullable|file|mimes:pdf|max:2048',
-            'contracts_file' => 'nullable|file|mimes:pdf|max:2048',
-            'nda_file' => 'nullable|file|mimes:pdf|max:2048',
+            'government_id_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'proof_of_address_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'live_selfie_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'partnership_agreement_file' => 'required|file|mimes:pdf|max:10240',
+            'contracts_file' => 'required|file|mimes:pdf|max:10240',
+            'nda_file' => 'required|file|mimes:pdf|max:10240',
         ];
-
-        // Dealer-specific documents
-        // if ($role === 'dealer') {
-        //     $rules['pan_card'] = array_merge(['required'], $fileRule);
-        //     $rules['gst_certificate'] = array_merge(['required'], $fileRule);
-        // }
-
         return $rules;
     }
 
