@@ -201,7 +201,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'KYC already exists. Waiting for Admin approval.'
-                ], 409);
+                ], 200);
             }
 
             // Create new KYC record
