@@ -108,6 +108,8 @@ class UserController extends Controller
             ],
             'address' => 'sometimes|nullable|string',
             'image' => 'sometimes|image|max:2048',
+            'nationality'          => 'nullable|string|max:100',
+            'country_of_residence' => 'nullable|string|max:100',
         ], [
             'phone.regex' => 'Phone number must include a valid country code (e.g., +91).'
         ]);
@@ -118,6 +120,8 @@ class UserController extends Controller
         if ($request->filled('phone'))   $updateData['phone']   = $request->phone;
         if ($request->filled('email'))   $updateData['email']   = $request->email;
         if ($request->filled('address')) $updateData['address'] = $request->address;
+        if ($request->filled('country_of_residence')) $updateData['country_of_residence'] = $request->country_of_residence;
+        if ($request->filled('nationality')) $updateData['nationality'] = $request->nationality;
 
         if (!empty($updateData)) {
             $user->update($updateData);
@@ -181,41 +185,89 @@ class UserController extends Controller
         return DataTables::of($users)->make(true);
     }
     
-    public function register(Request $request)
-    {
+    // public function register(Request $request)
+    // {
 
+    //     try {
+    //         $request->validate([
+    //             'name' => 'required|max:255',
+    //             'email' => 'required|string|email|max:255|unique:users',
+    //             'password' => 'required',
+    //             'mobile' => 'required|digits:10|unique:users,mobile',
+    //         ]);
+    //     } catch (ValidationException $e) {
+    //         return response()->json([
+    //             'errors' => $e->validator->errors()
+    //         ], 422);
+    //     }
+      
+
+    //     $user = User::create([
+    //         'name' => $request->input('name'),
+    //         'email' => $request->input('email'),
+    //         'password' => Hash::make($request->input('password')),
+    //         'phone' => $request->input('phone'),
+    //         'dob'  =>  $request->input('dob'),
+    //         'nationality' =>  $request->input('nationality'),
+    //         'country_of_residence' =>  $request->input('country_of_residence'),
+    //     ]);
+    //     $user->assignRole('user');
+    //     if ($request->hasFile('profile_image')) {
+    //         $user->addMedia($request->file('profile_image'))->toMediaCollection('images');
+    //     }
+    //     $user->save();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Registration successful',
+    //         'user' => $user
+    //     ], 201);
+    // }
+        public function register(Request $request)
+    {
         try {
             $request->validate([
-                'name' => 'required|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
-                'mobile' => 'required|digits:10|unique:users,mobile',
+                'name'                => 'required|string|max:255',
+                'email'               => 'required|string|email|max:255|unique:users',
+                'phone'               => 'required|digits:10|unique:users,phone',
+                'password'            => 'required|min:6',
+                'unique_code'         => 'nullable|string|max:50|unique:users,unique_code',
+                'gender'              => 'nullable|in:male,female,other',
+                'nationality'         => 'nullable|string|max:100',
+                'country_of_residence'=> 'nullable|string|max:100',
+                'image'               => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
-        } catch (ValidationException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'errors' => $e->validator->errors()
             ], 422);
         }
-      
 
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'phone' => $request->input('phone'),
+            'name'                 => $request->input('name'),
+            'email'                => $request->input('email'),
+            'phone'                => $request->input('phone'),
+            'password'             => Hash::make($request->input('password')),
+            'unique_code'          => $request->input('unique_code'),
+            'gender'               => $request->input('gender'),
+            'nationality'          => $request->input('nationality'),
+            'country_of_residence' => $request->input('country_of_residence'),
+            'status'               => $request->input('status', 1),
         ]);
+
         $user->assignRole('user');
-        if ($request->hasFile('profile_image')) {
-            $user->addMedia($request->file('profile_image'))->toMediaCollection('images');
+
+        if ($request->hasFile('image')) {
+            $user->addMedia($request->file('image'))->toMediaCollection('images');
         }
-        $user->save();
 
         return response()->json([
             'success' => true,
-            'message' => 'Registration successful',
-            'user' => $user
+            'message' => 'User created successfully',
+            'user'    => $user
         ], 201);
     }
+
 
 
 

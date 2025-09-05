@@ -115,6 +115,29 @@
                                
                             </div>
                         </div>
+
+                        <!-- Row 5: Nationality + Country of Residence -->
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="w-full">
+                                <label for="nationality" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nationality</label>
+                                <input type="text" id="nationality" name="nationality" 
+                                    value="{{ old('nationality', $user->nationality) }}" 
+                                    placeholder="Enter nationality"
+                                    class="form-input w-full bg-white border-slate-200 dark:border-zink-500 focus:outline-none 
+                                    focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 
+                                    placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                            </div>
+                            <div class="w-full">
+                                <label for="country_of_residence" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Country of Residence</label>
+                                <input type="text" id="country_of_residence" name="country_of_residence" 
+                                    value="{{ old('country_of_residence', $user->country_of_residence) }}" 
+                                    placeholder="Enter country of residence"
+                                    class="form-input w-full bg-white border-slate-200 dark:border-zink-500 focus:outline-none 
+                                    focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 
+                                    placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                            </div>
+                        </div>
+
                         
                         <!-- Submit -->
                         <div class="flex justify-center mt-6">

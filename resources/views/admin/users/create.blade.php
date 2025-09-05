@@ -109,6 +109,25 @@
                             </div>
                         </div>
 
+                        <!-- Row 5: Nationality + Country -->
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="w-full">
+                                <label for="nationality" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nationality</label>
+                                <input type="text" id="nationality" name="nationality" placeholder="Enter nationality"
+                                    class="form-input w-full bg-white border-slate-200 dark:border-zink-500 focus:outline-none 
+                                    focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 
+                                    placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                            </div>
+                            <div class="w-full">
+                                <label for="country_of_residence" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Country of Residence</label>
+                                <input type="text" id="country_of_residence" name="country_of_residence" placeholder="Enter country"
+                                    class="form-input w-full bg-white border-slate-200 dark:border-zink-500 focus:outline-none 
+                                    focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 
+                                    placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                            </div>
+                        </div>
+
+
                         <!-- Submit -->
                         <div class="flex justify-center mt-6">
                             <button type="submit" id="submitBtn" 
@@ -145,6 +164,8 @@ $(document).ready(function () {
         formData.append('status', $('#status').is(':checked') ? 1 : 0);
         formData.append('role', 'user');
         formData.append('_token', '{{ csrf_token() }}');
+        formData.append('nationality', $('#nationality').val());
+        formData.append('country_of_residence', $('#country_of_residence').val());
 
         $.ajax({
             url: '{{ route("users.store") }}',
