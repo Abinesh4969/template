@@ -30,6 +30,20 @@ class UserController extends Controller
          return view('admin.users.create');
 
     }
+
+    public function approveKyc(User $user)
+    {
+        $user->update([
+            'kyc_verified' => true
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User KYC approved successfully.'
+        ]);
+    }
+
+
     
     public function show($id){
 

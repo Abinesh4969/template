@@ -11,6 +11,7 @@ use App\Http\Requests\VerifyOtpRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Kyc;
 use Exception;
@@ -151,6 +152,16 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getUser()
+    {
+        $user = Auth::user();
+
+        return response()->json([
+            'success' => true,
+            'kyc_uploaded'  => $user->kyc ? true : false,
+            'user'    => new UserResource($user),
+        ]);
+    }
 
     public function logout(Request $request)
     {

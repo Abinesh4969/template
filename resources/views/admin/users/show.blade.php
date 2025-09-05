@@ -78,6 +78,13 @@
         <div class="card-body">
             <h6 class="mb-4 text-15">KYC Information</h6>
             <div class="overflow-x-auto">
+                 @if(!$user->kyc_verified)
+                <button type="button" 
+                        class="approve-kyc-btn flex items-center justify-center text-green-500 transition-all duration-200 ease-linear bg-green-100 rounded-md size-8 hover:text-white hover:bg-green-500 dark:bg-green-500/20 dark:hover:bg-green-500"
+                        data-url="{{ route('admin.users.kyc.approve', $user->id) }}">
+                        <i data-lucide="check" class="size-4"></i>
+                    </button>
+                    @endif
                 <table class="w-full ltr:text-left rtl:text-right">
                     <tbody>
                         <tr>
@@ -108,14 +115,20 @@
                                 {{ $kyc?->postal_code ?? '-' }}
                             </td>
                         </tr>
-                        <tr>
-                            <th class="py-2 font-semibold ps-0" scope="row">Verified</th>
-                            <td class="py-2 text-right text-slate-500 dark:text-zink-200">
-                                {!! $kyc?->is_verified
-                                    ? '<span class="text-green-500">Verified</span>'
-                                    : '<span class="text-red-500">Not Verified</span>' !!}
-                            </td>
-                        </tr>
+                     <tr>
+                    <th class="py-2 font-semibold ps-0" scope="row">Verified</th>
+                    <td class="py-2 text-right text-slate-500 dark:text-zink-200">
+
+                        
+                    
+                        @if(!$user->kyc_verified)
+                            <span class="text-red-500 ms-2">Not Verified</span>
+                        @else
+                            <span class="text-green-500">Verified</span>
+                        @endif
+                    </td>
+                </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -164,3 +177,63 @@
 
         <!--  -->
 @endsection
+
+
+@pushOnce('script')
+<script>
+$(document).ready(function () {
+$(document).on('click', '.approve-kyc-btn', function(e) {
+    e.preventDefault();
+
+    let url = $(this).data('url');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to approve this user's KYC?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, approve it!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+            confirmButton: 'text-white btn bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600',
+            cancelButton: 'btn bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-700'
+        },
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'User KYC has been approved.',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'text-white btn bg-custom-500 border-custom-500 hover:bg-custom-600 hover:border-custom-600'
+                        },
+                        buttonsStyling: false,
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: xhr.responseJSON?.message || 'Something went wrong. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Try Again'
+                    });
+                }
+            });
+        }
+    });
+});
+});
+
+</script>
+@endPushOnce
+

@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\DropdownController;
     Route::middleware(['auth:sanctum'])->group(function () {
      Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/updatekyc', [AuthController::class, 'updateKyc']);
+    Route::get('/getuser', [AuthController::class, 'getUser']);
         
     });
 

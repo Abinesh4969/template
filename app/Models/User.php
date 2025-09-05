@@ -32,6 +32,7 @@ class User extends Authenticatable implements HasMedia
         'dob',
         'gender',
         'nationality',
+        'kyc_verified',
         'country_of_residence',
     ];
     /**

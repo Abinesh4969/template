@@ -55,6 +55,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
       Route::resource('plans', PlanController::class)->except(['show']);
       Route::get('/plans_data', [PlanController::class, 'getData'])->name('plans.data');
 
+      Route::patch('/users/{user}/kyc-approve', [UserController::class, 'approveKyc'])
+    ->name('admin.users.kyc.approve');
+
+
 });
 
 require __DIR__.'/auth.php';
